@@ -1,0 +1,100 @@
+<?include("fragments/header.html")?>
+
+	<? foreach($this->getCurrentCoresStatus() as $core) { ?>
+
+		<!-- <? if($this->cycle()) { echo "odd"; } else { echo "even"; } ?> -->
+		<table style="width: 100%;" class="shade core">
+			<tr class="zero">
+				<td class="zero" colspan="2">
+					<h1><?= $core->homeKingdom ?> <small>Kingdom Core - <a href="history.php?core=<?=$core->itemId?>">view history</a></small></h1>
+				</td>
+			</tr>
+
+			<tr class="zero">
+				<td class="halfcore left zero">
+					<h4>Home location</h4>
+					<table>
+						<tr>
+							<td class="titles"><? if($core->isDestroyed === false) { ?>Belongs to<? } else { ?>Belonged to<? } ?></td>
+							<td class="values"><?= $core->homeKingdom ?> (<?= $core->serverName ?>)</td>
+						</tr>
+						<tr>
+							<td class="titles"><? if($core->isDestroyed === false) { ?>Lives at<? } else { ?>Lived at<? } ?></td>
+							<td class="values"><?= $core->homeCoordinate ?></td>
+						</tr>
+						<tr>
+							<td class="titles">Created on</td>
+							<td class="values"><?= $this->toTime($core->creationTime) ?></td>
+						</tr>
+						<tr>
+							<td class="titles"><? if($core->isDestroyed === false) { ?>Core is at home<? } else { ?>Core was at home<? } ?></td>
+							<td class="values <?if($core->homeStatus === false){?>warning<?}?>"><?= $this->toYN($core->homeStatus) ?></td>
+						</tr>
+
+						<? if($core->homeStatus === false) {?>
+						<tr>
+							<td class="titles">Last seen at home</td>
+							<td class="values"><?= $this->toTime($core->lastSeenAtHome) ?> (<strong><?= $this->timeSince($core->lastSeenAtHome) ?></strong>)</td>
+						</tr>
+						<? } ?>
+
+					</table>
+				</td>
+
+				<td class="halfcore right zero">
+					<? if($core->isDestroyed === false) { ?>
+						<h4>Current location</h4>
+						<table>
+							<tr>
+								<td class="titles">In kingdom</td>
+								<td class="values"><?= $core->kingdom ?></td>
+							</tr>
+							<tr>
+								<td class="titles">In village</td>
+								<td class="values"><?= $core->village ?></td>
+							</tr>
+							<tr>
+								<td class="titles">Exact location</td>
+								<td class="values"><?= $core->coordinate ?></td>
+							</tr>
+							<tr>
+								<td class="titles">Last moved</td>
+								<td class="values"><?= $this->timeSince($core->lastPolled) ?> (<?= $this->toTime($core->lastPolled) ?>)</td>
+							</tr>
+
+							<tr>
+								<td class="titles">In container</td>
+								<td class="values"><?= $core->vehicle ?></td>
+							</tr>
+
+							<tr>
+								<td class="titles">Distance from home</td>
+								<td class="values"><?= $core->distanceFromHome ?> tiles</td>
+							</tr>
+
+							<tr>
+								<td class="titles">Is above ground</td>
+								<td class="values <? if($core->surfaceStatus === false) { ?>error<? } ?>"><?= $this->toYN($core->surfaceStatus) ?></td>
+							</tr>
+							<tr>
+								<td class="titles">Is on a village token</td>
+								<td class="values <? if($core->isOnToken === false) { ?>error<? } ?>"><?= $this->toYN($core->isOnToken) ?></td>
+							</tr>
+							<tr>
+								<td class="titles">Is on a hostile village token</td>
+								<td class="values <? if($core->isOnHostileToken === true) { ?>warning<? } ?>"><?= $this->toYN($core->isOnHostileToken) ?></td>
+							</tr>
+						</table>
+					<? } else { ?>
+						
+						<br/><br/>
+						on <?= $this->toTime($core->lastPolled) ?><br/>
+						<strong>This core was destroyed and is no more.</strong>
+					<? } ?>
+				</td>
+			</tr>
+		</table> <!-- /core -->
+
+	<? } ?>
+
+<?include("fragments/footer.html")?>

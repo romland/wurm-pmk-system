@@ -1,0 +1,41 @@
+<?include("fragments/header.html")?>
+
+	<a href="index.php">Back</a>
+
+	<table style="width: 100%;">
+		<tr>
+			<th>At home</th>
+			<th>Above ground</th>
+			<th>On a token</th>
+			<th>On hostile token</th>
+			<th>Location</th>
+			<th>Coordinate</th>
+			<th>Distance to home</th>
+			<th>Vehicle</th>
+			<th>Timestamp</th>
+		</tr>
+
+		<?foreach($this->getHistory(28) as $entry) {?>
+		<tr class="<?if($this->cycle()) { echo "odd"; } else { echo "even"; }?>">
+			<td class="values <?if($entry->homeStatus === false){?>warning<?} else {?>info<?}?>"><?=$this->toYN($entry->homeStatus)?></td>
+			<td class="values <?if($entry->surfaceStatus === false){?>error<?}?>"><?=$this->toYN($entry->surfaceStatus)?></td>
+			<td class="values <?if($entry->isOnToken === false){?>error<?}?>"><?=$this->toYN($entry->isOnToken)?></td>
+			<td class="values <?if($entry->isOnHostileToken === true){?>error<?}?>"><?=$this->toYN($entry->isOnHostileToken)?></td>
+
+			<? if($entry->isDestroyed === true) { ?>
+				<td><strong>Core destroyed</strong></td>
+			<? } else { ?>
+				<td><?=$entry->village?>, <?=$entry->kingdom?></td>
+			<? } ?>
+			<td><?=$entry->coordinate?></td>
+			<td><?=$entry->distanceFromHome?> tiles</td>
+			<td class="values"><?=$entry->vehicle?></td>
+			<td>
+				<?=$this->toTime($entry->lastPolled)?><br/>
+				<?=$this->timeSince($entry->lastPolled)?>
+			</td>
+		</tr>
+		<?}?> <!-- foreach history entry -->
+	</table>
+
+<?include("fragments/footer.html")?>
