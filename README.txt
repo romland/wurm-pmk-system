@@ -3,6 +3,8 @@
 The original non-technical announcement around this was posted here: 
 https://forum.wurmonline.com/index.php?/topic/144753-zenath-the-beginning-pvp-pve/page/4/
 
+Note: I do not know whether this mod works on latest version of Wurm Unlimited. In general, though, pretty small patches are needed for upgrades.
+
 =====
 
 
